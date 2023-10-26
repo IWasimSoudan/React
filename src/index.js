@@ -1,15 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import store from "./store";
+import { bugAdded,bugResolved,bugRemoved } from "./actions";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+store.dispatch(bugAdded("Bug 1"));
+// Add new bug to store
+console.log(store.getState());
+// Add updated bug to store
+store.dispatch(bugResolved(1))
 
-reportWebVitals();
+console.log(store.getState());
+// Deleted new bug to store
+store.dispatch(bugRemoved(1))
 
+console.log(store.getState());
