@@ -17,14 +17,24 @@ const Update = () => {
 
   const handleUpdate = (event) => {
     event.preventDefault();
-    dispatch(
-      updateUser({
-        id: id,
-        name: uname,
-        email: uemail,
-      }),
-    );
-    navigate("/");
+    const info = { name: uname, email: uemail };
+    fetch(`http://localhost:8000/REST/peoples?id=${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(info),
+    }).then(() => {
+      console.log("user updated successfully");
+      dispatch(
+        updateUser({
+          id: id,
+          name: uname,
+          email: uemail,
+        }),
+      );
+      navigate("/");
+    });
   };
 
   return (

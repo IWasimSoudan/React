@@ -11,8 +11,16 @@ const Create = () => {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(addUser({ id: users[users.length - 1].id + 1, name, email }));
-    navigate("/");
+    const info = { name, email };
+    fetch("http://localhost:8000/REST/peoples", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(info),
+    }).then(() => {
+      console.log("new user added");
+      dispatch(addUser({ id: users[users.length - 1].id + 1, name, email }));
+      navigate("/");
+    });
   };
 
   return (
