@@ -1,26 +1,38 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser } from "./UserReducer";
 import { useNavigate } from "react-router-dom";
 
 const Create = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const users = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const info = { name, email };
+
     fetch("http://localhost:8000/REST/peoples", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(info),
-    }).then(() => {
-      console.log("new user added");
-      dispatch(addUser({ id: users[users.length - 1].id + 1, name, email }));
-      navigate("/");
-    });
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const { data: info } = data;
+        const { id, name, email } = info[0];
+        dispatch(addUser({ id, name, email }));
+        console.log("new user added");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
