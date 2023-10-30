@@ -5,4 +5,4 @@ const redicers = combineReducers({
   allProduct: productReducer,
 });
 
-export default redicers
+export default redicers;
