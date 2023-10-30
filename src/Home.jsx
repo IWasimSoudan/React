@@ -9,7 +9,6 @@ const Home = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-
     const fetchUser = async () => {
       try {
         const res = await fetch("http://localhost:8000/REST/peoples", {
@@ -42,7 +41,6 @@ const Home = () => {
               id,
             }),
           );
-          // Handle any further actions after successful deletion.
         } else {
           console.error("Error deleting user:", response.statusText);
         }
